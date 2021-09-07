@@ -70,6 +70,34 @@ class SingleLinkedList
         return true;
     }
     
+    //head->1->2->3->4->5->NULL
+    public function reverseBetween($beg, $end)
+    {
+        $prev = $this->head;
+        $curr = $this->head->next;
+        $i = 1;
+        for(;$i<$beg;$i++)
+        {
+            $prev = $curr;
+            $curr = $curr->next;
+        }
+        
+        $begNode = $prev;
+        $endNode = $curr;
+        for(;$i<=$end;$i++)
+        {
+            $tmp = $curr->next;
+            $curr->next = $prev;
+            $prev = $curr;
+            $curr = $tmp;
+        }
+        
+        $begNode->next = $prev;
+        $endNode->next = $curr;
+        
+        return true;
+    }
+    
     //head->c->b->a->null 
     public function printData()
     {
@@ -83,7 +111,7 @@ class SingleLinkedList
             
             $curNode = $curNode->next;
         }
-        echo 'NULL' . PHP_EOL;
+        echo 'NULL<br>' . PHP_EOL;
         
         return true;
     }
@@ -125,13 +153,20 @@ function isPalindrome(SingleLinkedList $list)
 }
 
 $singleLinedList = new SingleLinkedList();
-echo $singleLinedList->insert('a');
-echo $singleLinedList->insert('b');
-echo $singleLinedList->insert('c');
-echo $singleLinedList->insert('d');
-echo $singleLinedList->insert('e');
-echo '<br>';
+$singleLinedList->insert('a');
+$singleLinedList->insert('b');
+$singleLinedList->insert('c');
+$singleLinedList->insert('d');
+$singleLinedList->insert('e');
 $singleLinedList->printData();
+
+//链表反转
 $singleLinedList->reverse();
 $singleLinedList->printData();
+
+//链表不分反转
+$singleLinedList->reverseBetween(2, 3);
+$singleLinedList->printData();
+
+//回文串判断
 var_dump(isPalindrome($singleLinedList));
