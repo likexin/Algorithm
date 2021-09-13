@@ -74,6 +74,29 @@ class SingleLinkedList
         $slow->next = $slow->next->next;
     }
     
+    //head->1->2->3->4->5->NULL
+    //1. head 哨兵节点 不用考虑第一个节点的特殊性
+    //2. head->next == null 如果删除倒数第一个，获取到倒数第二个head->next = head->next->next
+    public $curr = 0;
+    public function removeNthFromEnd2($n)
+    {
+        $this->getNthFromEnd($this->head, $n);
+    }
+    public function getNthFromEnd($head, $n)
+    {
+        if ($head->next == null) return 1;
+        
+        $m = $this->getNthFromEnd($head->next, $n);
+        
+        echo $head->data,',',$m,"<br>";
+        
+        if ($m == $n) {
+            $head->next = $head->next->next;
+        }
+        
+        return $m + 1;
+    }
+    
     //链表的中间结点
     public function getMidNode()
     {
@@ -205,10 +228,13 @@ $singleLinedList->insert('e');
 $singleLinedList->insert('f');
 $singleLinedList->printData();
 
+$singleLinedList->removeNthFromEnd2(5);
+$singleLinedList->printData();
+/*
 $singleLinedList->removeNthFromEnd(1);
 $singleLinedList->printData();
 
-/*
+
 var_dump($singleLinedList->getMidNode());
 
 //链表反转
