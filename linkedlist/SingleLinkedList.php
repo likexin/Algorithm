@@ -19,7 +19,7 @@ class SingleLinkedList
 {
     public $head;
     
-    private $length;
+    public $length;
     
     public function __construct()
     {
@@ -176,7 +176,7 @@ class SingleLinkedList
     public function printData()
     {
         if (null == $this->head->next) {
-             echo 'NULL';
+             //echo 'NULL';
              return false;
         }
         
@@ -244,21 +244,52 @@ function isPalindrome(SingleLinkedList $list)
 }
 
 //两个有序的链表合并
+function mergeList($list1, $list2)
+{
+    $newList = new SingleLinkedList();
+    $root = $newList->head;
+    
+    $list1 = $list1->head->next;
+    $list2 = $list2->head->next;
+    
+    while($list1 && $list2) {
+        if ($list1->data <= $list2->data) {
+            $root->next = $list1;
+            $list1 = $list1->next;
+        } else {
+            $root->next = $list2;
+            $list2 = $list2->next;
+        }
+        $root = $root->next;
+    }
+    
+    if ($list1) {
+        $root->next = $list1;
+    }
+    
+    if ($list2) {
+        $root->next = $list2;
+    }
+    
+    $newList->length = 100;
+    $newList->printData();
+}
 
+$singleLinedList1 = new SingleLinkedList();
+$singleLinedList1->insert('4');
+$singleLinedList1->insert('2');
+$singleLinedList1->insert('1');
+$singleLinedList1->printData();
 
-$singleLinedList = new SingleLinkedList();
-$singleLinedList->testBuildCircle();
-$singleLinedList->printData();
-echo $singleLinedList->hasCircle();
+$singleLinedList2 = new SingleLinkedList();
+$singleLinedList2->insert('5');
+$singleLinedList2->insert('4');
+$singleLinedList2->insert('3');
+$singleLinedList2->insert('1');
+$singleLinedList2->printData();
+
+mergeList($singleLinedList1, $singleLinedList2);
 /*
-$singleLinedList->insert('a');
-$singleLinedList->insert('b');
-$singleLinedList->insert('c');
-$singleLinedList->insert('d');
-$singleLinedList->insert('e');
-$singleLinedList->insert('f');
-$singleLinedList->printData();
-
 $singleLinedList->removeNthFromEnd2(5);
 $singleLinedList->printData();
 
