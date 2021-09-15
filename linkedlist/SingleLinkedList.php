@@ -53,6 +53,20 @@ class SingleLinkedList
     }
     
     //链表中环的检测
+    public function hasCircle()
+    {
+        $slow = $this->head->next;
+        $fast = $this->head->next;
+        
+        while($fast && $fast->next) {
+            $slow = $slow->next;
+            $fast = $fast->next->next;
+            if ($slow === $fast) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     //删除链表倒数第 n 个结点
     public function removeNthFromEnd($n)
@@ -77,7 +91,6 @@ class SingleLinkedList
     //head->1->2->3->4->5->NULL
     //1. head 哨兵节点 不用考虑第一个节点的特殊性
     //2. head->next == null 如果删除倒数第一个，获取到倒数第二个head->next = head->next->next
-    public $curr = 0;
     public function removeNthFromEnd2($n)
     {
         $this->getNthFromEnd($this->head, $n);
@@ -179,6 +192,20 @@ class SingleLinkedList
         
         return true;
     }
+
+    public function testBuildCircle()
+    {
+        $node1 = new LinkedNode(1);
+        $node2 = new LinkedNode(2);
+        $node3 = new LinkedNode(3);
+        $node4 = new LinkedNode(4);
+        $this->head->next = $node1;
+        $node1->next = $node2;
+        $node2->next = $node3;
+        $node3->next = $node4;
+        $node4->next = $node2;
+        $this->length = 5;
+    }
 }
 
 function isPalindrome(SingleLinkedList $list)
@@ -220,6 +247,10 @@ function isPalindrome(SingleLinkedList $list)
 
 
 $singleLinedList = new SingleLinkedList();
+$singleLinedList->testBuildCircle();
+$singleLinedList->printData();
+echo $singleLinedList->hasCircle();
+/*
 $singleLinedList->insert('a');
 $singleLinedList->insert('b');
 $singleLinedList->insert('c');
@@ -230,7 +261,7 @@ $singleLinedList->printData();
 
 $singleLinedList->removeNthFromEnd2(5);
 $singleLinedList->printData();
-/*
+
 $singleLinedList->removeNthFromEnd(1);
 $singleLinedList->printData();
 
